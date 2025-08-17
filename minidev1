@@ -1,0 +1,68 @@
+# MiniDev Sprint 1: The Foundation of Synergy
+
+**Objective:** To establish the fundamental communication backbone of the agentic system by creating a minimalist Orchestrator and LLM Gateway that can communicate via gRPC.
+
+**Cycle:** 1 (As defined in "Iterativ Udviklingsplan for et AI-drevet Agentisk System.md")
+
+---
+
+## Tasks
+
+### Task 1: Define the gRPC Service Contract
+
+*   **ID:** T1
+*   **Component:** gRPC
+*   **Description:** Create the `.proto` file that defines the service contract between the Orchestrator and the LLM Gateway.
+*   **Artifacts:**
+    *   `/gRPC/llm_gateway.proto`
+*   **Acceptance Criteria:**
+    *   The `.proto` file defines a `LLMGateway` service.
+    *   The service has a single RPC method `Prompt` that takes a `PromptRequest` and returns a `PromptResponse`.
+    *   The `PromptRequest` message contains a `text` field (string).
+    *   The `PromptResponse` message contains a `text` field (string).
+    *   The gRPC client and server code is generated from the `.proto` file for Go.
+
+### Task 2: Implement the LLM Gateway Service
+
+*   **ID:** T2
+*   **Component:** gateway
+*   **Depends On:** T1
+*   **Description:** Create a minimalist implementation of the LLM Gateway service.
+*   **Artifacts:**
+    *   `/gateway/main.go`
+*   **Acceptance Criteria:**
+    *   The application is a gRPC server that implements the `LLMGateway` service.
+    *   The `Prompt` method returns a hardcoded, non-empty string.
+    *   The server listens on a configurable port.
+
+### Task 3: Implement the Orchestrator Client
+
+*   **ID:** T3
+*   **Component:** orchestrator
+*   **Depends On:** T1
+*   **Description:** Create a minimalist implementation of the Orchestrator that acts as a client to the LLM Gateway.
+*   **Artifacts:**
+    *   `/orchestrator/main.go`
+*   **Acceptance Criteria:**
+    *   The application is a gRPC client that connects to the `LLMGateway` service.
+    *   There is a function that takes a string as input, calls the `Prompt` method on the gateway, and returns the response.
+
+### Task 4: End-to-End Integration Test
+
+*   **ID:** T4
+*   **Component:** orchestrator
+*   **Depends On:** T2, T3
+*   **Description:** Create a test to verify the communication between the Orchestrator and the LLM Gateway.
+*   **Artifacts:**
+    *   `/orchestrator/main_test.go`
+*   **Acceptance Criteria:**
+    *   The test starts the LLM Gateway server (or connects to a running instance).
+    *   The test calls the Orchestrator's client function.
+    *   The test asserts that the response received from the Orchestrator matches the hardcoded response from the Gateway.
+
+---
+
+## Sprint Review
+
+*   **Goal:** To demonstrate a successful gRPC call from the Orchestrator to the LLM Gateway and back.
+*   **Verification:** Run the integration test from Task 4 and show that it passes.

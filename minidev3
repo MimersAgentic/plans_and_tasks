@@ -1,0 +1,82 @@
+# MiniDev Sprint 3: Memory and the First Agent
+
+**Objective:** To introduce statefulness into the system by creating an external memory service and the first specialized agent to interact with it.
+
+**Cycle:** 2 (As defined in "Iterativ Udviklingsplan for et AI-drevet Agentisk System.md")
+
+---
+
+## Tasks
+
+### Task 1: Define the gRPC Service Contract for Memory
+
+*   **ID:** T9
+*   **Component:** gRPC
+*   **Description:** Create a new `.proto` file for the memory service.
+*   **Artifacts:**
+    *   `/gRPC/memory_service.proto`
+*   **Acceptance Criteria:**
+    *   The `.proto` file defines a `MemoryService`.
+    *   The service has at least two RPC methods: `SaveMemory(SaveRequest)` and `RetrieveMemory(RetrieveRequest)`.
+    *   Define the `SaveRequest`, `SaveResponse`, `RetrieveRequest`, and `RetrieveResponse` messages.
+    *   The gRPC client and server code is generated from the `.proto` file for Go.
+
+### Task 2: Implement the Memory Service
+
+*   **ID:** T10
+*   **Component:** (new) memory
+*   **Depends On:** T9
+*   **Description:** Create a new gRPC service that provides persistent memory using a `libsql` database.
+*   **Artifacts:**
+    *   `/memory/main.go`
+    *   `/memory/database.go`
+*   **Acceptance Criteria:**
+    *   The application is a gRPC server that implements the `MemoryService`.
+    *   The `SaveMemory` method saves data to a `libsql` database.
+    *   The `RetrieveMemory` method retrieves data from the `libsql` database.
+    *   The service is containerized (e.g., with a Dockerfile).
+
+### Task 3: Implement the Memory Agent
+
+*   **ID:** T11
+*   **Component:** agent
+*   **Depends On:** T9
+*   **Description:** Create a new `MemoryAgent` that can communicate with the `MemoryService`.
+*   **Artifacts:**
+    *   `/agent/memory_agent.go`
+*   **Acceptance Criteria:**
+    *   The `MemoryAgent` is a gRPC client for the `MemoryService`.
+    *   It has functions to save and retrieve memory by calling the `MemoryService`.
+    *   The agent is designed to be short-lived and stateless.
+
+### Task 4: Update the Orchestrator
+
+*   **ID:** T12
+*   **Component:** orchestrator
+*   **Depends On:** T11
+*   **Description:** Update the Orchestrator to be able to spawn and manage the `MemoryAgent`.
+*   **Artifacts:**
+    *   `/orchestrator/main.go` (modified)
+*   **Acceptance Criteria:**
+    *   The Orchestrator has rule-based logic to decide when to use the `MemoryAgent` (e.g., based on keywords in the prompt like "remember" or "recall").
+    *   The Orchestrator can spawn a `MemoryAgent`, provide it with a task (e.g., "save this information"), and receive a result.
+
+### Task 5: End-to-End Integration Test
+
+*   **ID:** T13
+*   **Component:** orchestrator
+*   **Depends On:** T10, T12
+*   **Description:** Create a new integration test to verify the full memory workflow.
+*   **Artifacts:**
+    *   `/orchestrator/memory_test.go`
+*   **Acceptance Criteria:**
+    *   The test sends a prompt to the Orchestrator like "Remember that my favorite color is blue."
+    *   The test verifies that the Orchestrator spawns the `MemoryAgent` and that the data is saved to the `libsql` database.
+    *   A subsequent test retrieves the information and verifies its correctness.
+
+---
+
+## Sprint Review
+
+*   **Goal:** To demonstrate that the system can store and retrieve information using the new `MemoryService` and `MemoryAgent`.
+*   **Verification:** Run the integration test from Task 5 and show that it passes.

@@ -1,0 +1,66 @@
+# MiniDev Sprint 2: Foundational Observability
+
+**Objective:** To implement a gRPC logging interceptor to provide visibility into the communication between services, based on the strategy outlined in "Observabilitet i det Agentiske System.md".
+
+**Cycle:** 1.5 (Foundational Capability)
+
+---
+
+## Tasks
+
+### Task 1: Create the Logging Interceptor
+
+*   **ID:** T5
+*   **Component:** observer
+*   **Description:** Create a new Go package for gRPC middleware and implement a logging interceptor.
+*   **Artifacts:**
+    *   `/observer/middleware/interceptors/logging.go`
+*   **Acceptance Criteria:**
+    *   The interceptor logs the following information for each gRPC call:
+        *   Request: Service name, method name, and request payload (e.g., as JSON).
+        *   Response: Response payload and status.
+        *   Execution time of the call.
+    *   The log output is structured (e.g., JSON or key-value pairs) for easy parsing.
+
+### Task 2: Integrate the Interceptor into the LLM Gateway
+
+*   **ID:** T6
+*   **Component:** gateway
+*   **Depends On:** T5
+*   **Description:** Add the logging interceptor to the gRPC server of the LLM Gateway.
+*   **Artifacts:**
+    *   `/gateway/main.go` (modified)
+*   **Acceptance Criteria:**
+    *   The LLM Gateway server is initialized with the logging interceptor.
+    *   When the gateway receives a request from the Orchestrator, the interceptor logs the request and response.
+
+### Task 3: Integrate the Interceptor into the Orchestrator
+
+*   **ID:** T7
+*   **Component:** orchestrator
+*   **Depends On:** T5
+*   **Description:** Add the logging interceptor to the gRPC client of the Orchestrator.
+*   **Artifacts:**
+    *   `/orchestrator/main.go` (modified)
+*   **Acceptance Criteria:**
+    *   The Orchestrator's gRPC client is initialized with the logging interceptor.
+    *   When the Orchestrator calls the LLM Gateway, the interceptor logs the request and response.
+
+### Task 4: Verification
+
+*   **ID:** T8
+*   **Component:** orchestrator
+*   **Depends On:** T6, T7
+*   **Description:** Run the end-to-end test from Sprint 1 and verify that the logs are generated correctly.
+*   **Artifacts:**
+    *   Logs from the LLM Gateway and Orchestrator services.
+*   **Acceptance Criteria:**
+    *   When the integration test from Task 4 (in `minidev1`) is run, both the Orchestrator and the LLM Gateway produce structured logs for the gRPC call.
+    *   The logs contain the correct service name, method name, request, and response.
+
+---
+
+## Sprint Review
+
+*   **Goal:** To demonstrate that all gRPC communication between the Orchestrator and the LLM Gateway is being logged with detailed, structured information.
+*   **Verification:** Run the integration test and show the log output from both services.

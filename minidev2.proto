@@ -1,0 +1,36 @@
+sprint_id: "minidev2"
+sprint_goal: "To implement a gRPC logging interceptor to provide visibility into the communication between services, based on the strategy outlined in \"Observabilitet i det Agentiske System.md\"."
+status: PLANNED
+linked_documents: "documents/Observabilitet i det Agentiske System.md"
+tasks: {
+    task_id: "T5"
+    title: "Create the Logging Interceptor"
+    description: "Create a new Go package for gRPC middleware and implement a logging interceptor."
+    status: PENDING
+    assignee_id: "observer"
+}
+tasks: {
+    task_id: "T6"
+    title: "Integrate the Interceptor into the LLM Gateway"
+    description: "Add the logging interceptor to the gRPC server of the LLM Gateway."
+    status: PENDING
+    assignee_id: "gateway"
+    dependency_task_ids: "T5"
+}
+tasks: {
+    task_id: "T7"
+    title: "Integrate the Interceptor into the Orchestrator"
+    description: "Add the logging interceptor to the gRPC client of the Orchestrator."
+    status: PENDING
+    assignee_id: "orchestrator"
+    dependency_task_ids: "T5"
+}
+tasks: {
+    task_id: "T8"
+    title: "Verification"
+    description: "Run the end-to-end test from Sprint 1 and verify that the logs are generated correctly."
+    status: PENDING
+    assignee_id: "orchestrator"
+    dependency_task_ids: "T6"
+    dependency_task_ids: "T7"
+}
