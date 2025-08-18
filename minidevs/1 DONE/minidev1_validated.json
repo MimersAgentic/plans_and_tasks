@@ -1,0 +1,149 @@
+{
+  "header": {
+    "task_type": "DEVELOPMENT",
+    "title": "gRPC Communication Foundation",
+    "context_id": "MINIDEV_GRPC_001",
+    "priority": "HIGH",
+    "complexity": "MEDIUM",
+    "dependencies": [
+      "Go runtime",
+      "gRPC framework",
+      "Protocol Buffers"
+    ]
+  },
+  "executive_summary": {
+    "objective": "Establish the fundamental communication backbone of the agentic system by creating a minimalist Orchestrator and LLM Gateway that can communicate via gRPC",
+    "expected_outcome": "Working gRPC communication between Orchestrator and LLM Gateway with defined service contracts",
+    "success_criteria": "Successful gRPC call from Orchestrator to LLM Gateway with proper request/response handling and passing integration tests"
+  },
+  "context": {
+    "system_architecture": {
+      "components": null,
+      "technologies": null,
+      "patterns": null
+    },
+    "current_state": {
+      "existing_code": null,
+      "known_issues": null,
+      "constraints": null
+    },
+    "domain_knowledge": {
+      "business_logic": null,
+      "user_requirements": null,
+      "integration_points": null
+    }
+  },
+  "task_definition": {
+    "primary_task": {
+      "id": "GRPC_FOUNDATION_001",
+      "type": "IMPLEMENTATION",
+      "description": "Create gRPC service contracts and implement basic Orchestrator-Gateway communication with proper testing"
+    },
+    "subtasks": [
+      {
+        "name": "Define gRPC Service Contract",
+        "action": "",
+        "input": "",
+        "output": "",
+        "validation": ""
+      },
+      {
+        "name": "Implement LLM Gateway Service",
+        "action": "",
+        "input": "",
+        "output": "",
+        "validation": ""
+      },
+      {
+        "name": "Implement Orchestrator Client",
+        "action": "",
+        "input": "",
+        "output": "",
+        "validation": ""
+      },
+      {
+        "name": "End-to-End Integration Test",
+        "action": "",
+        "input": "",
+        "output": "",
+        "validation": ""
+      }
+    ]
+  },
+  "technical_specifications": {
+    "code_requirements": {
+      "language": "",
+      "framework": "",
+      "libraries": null,
+      "patterns": null
+    },
+    "quality_standards": {
+      "code_style": "",
+      "testing": "",
+      "documentation": "",
+      "performance": ""
+    },
+    "security_considerations": {
+      "authentication": "",
+      "authorization": "",
+      "data_protection": ""
+    }
+  },
+  "implementation_guidance": {
+    "approach": null,
+    "best_practices": null,
+    "common_pitfalls": null,
+    "decision_points": null
+  },
+  "validation_and_testing": {
+    "acceptance_criteria": null,
+    "test_cases": null,
+    "integration_points": null
+  },
+  "resources_and_references": {
+    "code_references": null,
+    "documentation": null,
+    "external_dependencies": null
+  },
+  "output_specification": {
+    "deliverables": [
+      {
+        "name": "gRPC Service Contract",
+        "format": "",
+        "location": "",
+        "content": ""
+      },
+      {
+        "name": "LLM Gateway Service",
+        "format": "",
+        "location": "",
+        "content": ""
+      },
+      {
+        "name": "Orchestrator Client",
+        "format": "",
+        "location": "",
+        "content": ""
+      },
+      {
+        "name": "Integration Test Suite",
+        "format": "",
+        "location": "",
+        "content": ""
+      }
+    ],
+    "success_metrics": {
+      "functional": [
+        "Successful gRPC call from Orchestrator to LLM Gateway and back"
+      ],
+      "performance": [
+        "Low-latency communication between services"
+      ],
+      "quality": [
+        "Clean",
+        "maintainable Go code following gRPC best practices"
+      ]
+    }
+  },
+  "parsed_at": "2025-08-17T18:51:55.954479+02:00"
+}

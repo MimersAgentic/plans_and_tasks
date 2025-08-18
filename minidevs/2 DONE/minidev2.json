@@ -1,0 +1,239 @@
+{
+  "header": {
+    "task_type": "DEVELOPMENT",
+    "title": "MiniDev Sprint 2: Foundational Observability",
+    "context_id": "MINIDEV_OBSERVABILITY_FOUNDATION_002",
+    "priority": "HIGH",
+    "complexity": "MODERATE",
+    "dependencies": [
+      "Go runtime",
+      "gRPC framework",
+      "existing Orchestrator and Gateway services"
+    ]
+  },
+  "executive_summary": {
+    "objective": "Implement a gRPC logging interceptor to provide visibility into the communication between services, based on the strategy outlined in \"Observabilitet i det Agentiske System.md\"",
+    "expected_outcome": "Complete observability of gRPC communication with structured logging on both client and server sides",
+    "success_criteria": "All gRPC calls between Orchestrator and LLM Gateway are logged with detailed, structured information including request/response payloads and execution times"
+  },
+  "context": {
+    "system_architecture": {
+      "components": [
+        "Observer middleware",
+        "gRPC interceptors",
+        "existing Orchestrator and Gateway services"
+      ],
+      "technologies": [
+        "Go",
+        "gRPC interceptors",
+        "structured logging"
+      ],
+      "patterns": [
+        "Middleware pattern",
+        "cross-cutting concerns",
+        "observability"
+      ]
+    },
+    "current_state": {
+      "existing_code": [
+        "Working gRPC communication between Orchestrator and Gateway from Sprint 1"
+      ],
+      "known_issues": [
+        "No visibility into gRPC communication",
+        "difficult to debug and monitor"
+      ],
+      "constraints": [
+        "Must not break existing functionality",
+        "minimal performance impact"
+      ]
+    },
+    "domain_knowledge": {
+      "business_logic": [
+        "Foundational capability for system observability and debugging"
+      ],
+      "user_requirements": [
+        "Transparent system behavior for development and operations"
+      ],
+      "integration_points": [
+        "All gRPC services in the agentic system"
+      ]
+    }
+  },
+  "task_definition": {
+    "primary_task": {
+      "id": "MINIDEV_OBSERVABILITY_FOUNDATION_002",
+      "type": "IMPLEMENTATION",
+      "description": "Create comprehensive gRPC logging infrastructure as foundational capability (Cycle 1.5)"
+    },
+    "subtasks": [
+      {
+        "name": "Create Logging Interceptor",
+        "action": "Implement gRPC middleware package with logging interceptor",
+        "input": "gRPC interceptor interface requirements",
+        "output": "/observer/middleware/interceptors/logging.go",
+        "validation": "Interceptor logs all required information with structured format"
+      },
+      {
+        "name": "Integrate into LLM Gateway",
+        "action": "Add logging interceptor to Gateway gRPC server",
+        "input": "Existing Gateway server and logging interceptor",
+        "output": "Modified /gateway/main.go",
+        "validation": "Gateway logs all incoming requests and responses"
+      },
+      {
+        "name": "Integrate into Orchestrator",
+        "action": "Add logging interceptor to Orchestrator gRPC client",
+        "input": "Existing Orchestrator client and logging interceptor",
+        "output": "Modified /orchestrator/main.go",
+        "validation": "Orchestrator logs all outgoing requests and responses"
+      },
+      {
+        "name": "Verification Testing",
+        "action": "Run existing integration test and verify log output",
+        "input": "Sprint 1 integration test",
+        "output": "Structured log entries from both services",
+        "validation": "Logs contain correct service names, methods, payloads, and timing"
+      }
+    ]
+  },
+  "technical_specifications": {
+    "code_requirements": {
+      "language": "Go",
+      "framework": "gRPC-Go interceptors",
+      "libraries": [
+        "google.golang.org/grpc",
+        "structured logging library (logrus/zap)"
+      ],
+      "patterns": [
+        "Middleware pattern",
+        "decorator pattern"
+      ]
+    },
+    "quality_standards": {
+      "code_style": "Go standard formatting (gofmt)",
+      "testing": "Integration tests with log verification",
+      "documentation": "Inline comments for interceptor logic",
+      "performance": "Minimal overhead, async logging where possible"
+    },
+    "security_considerations": {
+      "authentication": "Log security-relevant events",
+      "authorization": "No sensitive data in logs",
+      "data_protection": "Sanitize payloads if needed"
+    }
+  },
+  "implementation_guidance": {
+    "approach": [
+      "Phase 1: Create reusable logging interceptor with structured output",
+      "Phase 2: Integrate interceptor into Gateway server middleware chain",
+      "Phase 3: Integrate interceptor into Orchestrator client middleware chain",
+      "Phase 4: Verify complete observability through existing tests"
+    ],
+    "best_practices": [
+      "Use structured logging format (JSON) for machine readability",
+      "Include correlation IDs for request tracing",
+      "Log execution time for performance monitoring",
+      "Implement configurable log levels",
+      "Ensure thread-safe logging operations"
+    ],
+    "common_pitfalls": null,
+    "decision_points": null
+  },
+  "validation_and_testing": {
+    "acceptance_criteria": {
+      "functional_requirements": [
+        "Logging interceptor logs service name, method name, and request payload as JSON",
+        "Interceptor logs response payload and status for each call",
+        "Execution time is measured and logged for each gRPC call",
+        "Log output is structured (JSON or key-value pairs) for easy parsing",
+        "LLM Gateway server is initialized with logging interceptor",
+        "Gateway logs requests and responses when receiving calls from Orchestrator",
+        "Orchestrator gRPC client is initialized with logging interceptor",
+        "Orchestrator logs requests and responses when calling LLM Gateway",
+        "Integration test from Sprint 1 produces structured logs from both services",
+        "Logs contain correct service name, method name, request, and response data"
+      ]
+    },
+    "test_cases": [
+      {
+        "name": "Interceptor Functionality",
+        "input": "gRPC call through interceptor",
+        "expected": "Structured log entry with all required fields",
+        "validation": "Log contains service, method, payload, status, and timing"
+      },
+      {
+        "name": "Gateway Integration",
+        "input": "Request to Gateway service",
+        "expected": "Gateway logs the interaction",
+        "validation": "Gateway log file contains structured entry"
+      },
+      {
+        "name": "Orchestrator Integration",
+        "input": "Orchestrator calls Gateway",
+        "expected": "Orchestrator logs the outgoing call",
+        "validation": "Orchestrator log file contains structured entry"
+      },
+      {
+        "name": "End-to-End Observability",
+        "input": "Run Sprint 1 integration test",
+        "expected": "Both services produce correlated log entries",
+        "validation": "Logs can be matched by correlation ID or timestamp"
+      }
+    ],
+    "integration_points": [
+      "Gateway Service: Must log all incoming gRPC requests",
+      "Orchestrator Service: Must log all outgoing gRPC requests",
+      "Future Services: Interceptor must be reusable for new services"
+    ]
+  },
+  "resources_and_references": {
+    "code_references": null,
+    "documentation": null,
+    "external_dependencies": null
+  },
+  "output_specification": {
+    "deliverables": [
+      {
+        "name": "Logging Interceptor",
+        "format": "Go source code",
+        "location": "/observer/middleware/interceptors/logging.go",
+        "content": "gRPC interceptor with structured logging capability"
+      },
+      {
+        "name": "Enhanced Gateway",
+        "format": "Go source code",
+        "location": "/gateway/main.go (modified)",
+        "content": "Gateway server with integrated logging interceptor"
+      },
+      {
+        "name": "Enhanced Orchestrator",
+        "format": "Go source code",
+        "location": "/orchestrator/main.go (modified)",
+        "content": "Orchestrator client with integrated logging interceptor"
+      },
+      {
+        "name": "Log Output",
+        "format": "Structured logs (JSON)",
+        "location": "Service log files or stdout",
+        "content": "Detailed gRPC communication logs"
+      }
+    ],
+    "success_metrics": {
+      "functional": [
+        "All acceptance criteria met",
+        "complete gRPC observability"
+      ],
+      "performance": [
+        "Less than 5ms overhead per gRPC call"
+      ],
+      "quality": [
+        "Structured logs enable easy debugging and monitoring"
+      ]
+    }
+  },
+  "sprint_review": {
+    "goal": "Demonstrate that all gRPC communication between the Orchestrator and the LLM Gateway is being logged with detailed, structured information",
+    "verification": "Run the integration test and show the log output from both services",
+    "success_indicator": "Clear, structured log entries showing complete request-response cycles with timing information"
+  },
+  "parsed_at": "2025-08-17T17:24:09.112004+02:00"
+}
