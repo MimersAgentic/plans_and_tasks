@@ -50,6 +50,13 @@
 **output:** A test report confirming system stability, performance, and reliability.
 **validation:** The system handles a high volume of concurrent requests without critical failures.
 <!-- /ITEM:subtask -->
+<!-- ITEM:subtask -->
+**name:** Refactor Gateway for Multi-Provider Support
+**action:** Separate the provider-specific logic from the main gateway service. Create a new `provider` directory and move the OpenRouter implementation into its own module (`gateway/provider/openrouter/openrouter.go`). The gateway should be updated to dynamically load and manage multiple providers, making it a stateless, multi-spawn service.
+**input:** The existing `gateway/main.go` implementation.
+**output:** A refactored gateway with a clear separation between the core gateway logic and provider implementations. The OpenRouter logic is moved to `gateway/provider/openrouter/openrouter.go`.
+**validation:** The gateway can be started with a specific provider configuration, and it correctly routes requests to that provider. The system remains functional after the refactoring.
+<!-- /ITEM:subtask -->
 <!-- /BLOCK:OPTIONAL:STRUCTURED:subtasks -->
 
 <!-- BLOCK:REQUIRED:STRUCTURED:output_specification -->
